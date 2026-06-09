@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Magang</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        .form-section {
+            padding: 80px 0;
+        }
+
+        .form-container {
+            background: white;
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, .08);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title h1 {
+            color: #1E3A8A;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 10px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* ===================== */
+        /* MODAL SUKSES          */
+        /* ===================== */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-box .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-box h2 {
+            color: #1E3A8A;
+            margin-bottom: 8px;
+        }
+
+        .modal-box p {
+            color: #64748B;
+            margin-bottom: 16px;
+        }
+
+        .nomor-box {
+            background: #F1F5F9;
+            border: 2px dashed #7C3AED;
+            border-radius: 10px;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #7C3AED;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-copy {
+            background: #EDE9FE;
+            color: #7C3AED;
+        }
+
+        .btn-status {
+            background: #1E3A8A;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <div class="container">
+
+        <div class="logo">
+            <img src="assets/logo.png" alt="Logo">
+            <div>
+                <h2>Portal Magang</h2>
+                <span>Diskominfotik Kota Banjarmasin</span>
+            </div>
+        </div>
+
+        <div class="nav-action">
+            <a href="index.html" class="btn-primary">
+                Kembali
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<!-- FORM PENDAFTARAN -->
+<section class="form-section">
+    <div class="container">
+        <div class="form-container">
+
+            <div class="form-title">
+                <h1>Pendaftaran Magang</h1>
+                <p>Lengkapi data berikut dengan benar.</p>
+            </div>
+
+            <form id="internshipForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="nama_lengkap" placeholder="Masukkan nama lengkap" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="contoh@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>No HP / WhatsApp</label>
+                        <input type="text" id="no_hp" placeholder="08xxxxxxxxxx" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Asal Kampus / Sekolah</label>
+                        <input type="text" id="asal_kampus" placeholder="Nama institusi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jurusan / Program Studi</label>
+                        <input type="text" id="jurusan" placeholder="Nama jurusan" required>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- kolom kosong untuk alignment -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Periode Mulai</label>
+                        <input type="date" id="periode_mulai" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Periode Selesai</label>
+                        <input type="date" id="periode_selesai" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Surat Pengantar <small>(PDF)</small></label>
+                        <input type="file" id="surat_pengantar" accept=".pdf" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>KTM / Kartu Pelajar <small>(PDF/JPG/PNG)</small></label>
+                        <input type="file" id="ktm" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Curriculum Vitae <small>(PDF)</small></label>
+                        <input type="file" id="cv" accept=".pdf" required>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-primary submit-btn">
+                    Kirim Pengajuan
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<!-- MODAL SUKSES -->
+<div id="successModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <div class="icon">🎉</div>
+        <h2>Pengajuan Berhasil!</h2>
+        <p>Simpan nomor pengajuan berikut untuk mengecek status pendaftaranmu.</p>
+
+        <div class="nomor-box" id="nomorDisplay">-</div>
+
+        <div class="modal-actions">
+            <button class="btn-copy" onclick="copyNomor()">📋 Salin Nomor</button>
+            <button class="btn-status" onclick="goToStatus()">Cek Status →</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+</body>
+</html>

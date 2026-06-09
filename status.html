@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Status Magang</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .status-section{
+            padding:80px 0;
+        }
+
+        .status-card{
+            max-width:800px;
+            margin:auto;
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 15px 30px rgba(0,0,0,.08);
+        }
+
+        .status-card h1{
+            text-align:center;
+            margin-bottom:10px;
+            color:#1E3A8A;
+        }
+
+        .status-card p{
+            text-align:center;
+            color:#64748B;
+            margin-bottom:25px;
+        }
+
+        .search-box{
+            display:flex;
+            gap:10px;
+        }
+
+        .search-box input{
+            flex:1;
+            padding:14px;
+            border:1px solid #CBD5E1;
+            border-radius:10px;
+        }
+
+        .search-box button{
+            border:none;
+            cursor:pointer;
+        }
+
+        .result{
+            margin-top:30px;
+            display:none;
+        }
+
+        .info{
+            background:#F8FAFC;
+            padding:20px;
+            border-radius:15px;
+            margin-bottom:15px;
+        }
+
+        .status-badge{
+            display:inline-block;
+            padding:10px 18px;
+            border-radius:30px;
+            font-weight:bold;
+            color:white;
+        }
+
+        .pending{
+            background:#F59E0B;
+        }
+
+        .approved{
+            background:#10B981;
+        }
+
+        .rejected{
+            background:#EF4444;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="container">
+
+        <div class="logo">
+            <img src="assets/logo.png">
+            <div>
+                <h2>Portal Magang</h2>
+                <span>Diskominfotik Kota Banjarmasin</span>
+            </div>
+        </div>
+
+        <div class="nav-action">
+            <a href="index.html" class="btn-primary">
+                Beranda
+            </a>
+        </div>
+
+    </div>
+</header>
+
+<section class="status-section">
+
+    <div class="container">
+
+        <div class="status-card">
+
+            <h1>Cek Status Pengajuan</h1>
+
+            <p>
+                Masukkan nomor pengajuan yang diperoleh saat pendaftaran.
+            </p>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="nomorPengajuan"
+                    placeholder="Contoh: MAGANG-2026-123456">
+
+                <button
+                    onclick="cekStatus()"
+                    class="btn-primary">
+                    Cari
+                </button>
+
+            </div>
+
+            <div
+                class="result"
+                id="result">
+
+                <div class="info">
+                    <strong>Nomor Pengajuan</strong>
+                    <br>
+                    <span id="hasilNomor"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Nama Lengkap</strong>
+                    <br>
+                    <span id="hasilNama"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Asal Kampus</strong>
+                    <br>
+                    <span id="hasilKampus"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Status</strong>
+                    <br><br>
+
+                    <span
+                        id="hasilStatus"
+                        class="status-badge">
+                    </span>
+                </div>
+
+                <div
+                    class="info"
+                    id="alasanBox"
+                    style="display:none;">
+
+                    <strong>
+                        Alasan Penolakan
+                    </strong>
+
+                    <br>
+
+                    <span
+                        id="hasilAlasan">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+'https://ndtatoyctayebjszwvpz.supabase.co';
+
+const SUPABASE_KEY =
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kdGF0b3ljdGF5ZWJqc3p3dnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3OTUwNzIsImV4cCI6MjA5MzM3MTA3Mn0.eZ8ceZCDsNkIIKJZ6dWqY2TSPQB_7IziTXzkuf4VPpU';
+
+const client =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+async function cekStatus(){
+
+    const nomor =
+    document.getElementById(
+        'nomorPengajuan'
+    ).value;
+
+    if(!nomor){
+        alert(
+            'Masukkan nomor pengajuan'
+        );
+        return;
+    }
+
+    const { data, error } =
+    await client
+    .from(
+        'internship_applications'
+    )
+    .select('*')
+    .eq(
+        'nomor_pengajuan',
+        nomor
+    )
+    .single();
+
+    if(error){
+
+        alert(
+            'Data tidak ditemukan'
+        );
+
+        return;
+    }
+
+    document
+    .getElementById(
+        'result'
+    )
+    .style.display =
+    'block';
+
+    document
+    .getElementById(
+        'hasilNomor'
+    )
+    .innerText =
+    data.nomor_pengajuan;
+
+    document
+    .getElementById(
+        'hasilNama'
+    )
+    .innerText =
+    data.nama_lengkap;
+
+    document
+    .getElementById(
+        'hasilKampus'
+    )
+    .innerText =
+    data.asal_kampus;
+
+    const statusElement =
+    document.getElementById(
+        'hasilStatus'
+    );
+
+    statusElement.className =
+    'status-badge';
+
+    if(data.status === 'pending'){
+
+        statusElement.classList.add(
+            'pending'
+        );
+
+        statusElement.innerText =
+        'PENDING';
+
+    }else if(
+        data.status === 'diterima'
+    ){
+
+        statusElement.classList.add(
+            'approved'
+        );
+
+        statusElement.innerText =
+        'DITERIMA';
+
+    }else{
+
+        statusElement.classList.add(
+            'rejected'
+        );
+
+        statusElement.innerText =
+        'DITOLAK';
+
+        document
+        .getElementById(
+            'alasanBox'
+        )
+        .style.display =
+        'block';
+
+        document
+        .getElementById(
+            'hasilAlasan'
+        )
+        .innerText =
+        data.alasan_penolakan ??
+        '-';
+    }
+}
+
+</script>
+
+</body>
+</html>
