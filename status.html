@@ -167,6 +167,26 @@
                 </div>
 
                 <div
+    class="info"
+    id="suratBox"
+    style="display:none;">
+
+    <strong>
+        Surat Balasan
+    </strong>
+
+    <br><br>
+
+    <a
+        id="linkSurat"
+        target="_blank"
+        class="btn-primary">
+        Lihat Surat Balasan
+    </a>
+
+</div>
+
+                <div
                     class="info"
                     id="alasanBox"
                     style="display:none;">
@@ -287,16 +307,33 @@ async function cekStatus(){
         statusElement.innerText =
         'PENDING';
 
-    }else if(
-        data.status === 'diterima'
-    ){
+}else if(
+    data.status === 'diterima'
+){
 
-        statusElement.classList.add(
-            'approved'
-        );
+    statusElement.classList.add(
+        'approved'
+    );
 
-        statusElement.innerText =
-        'DITERIMA';
+    statusElement.innerText =
+    'DITERIMA';
+
+    if(data.url_surat_balasan){
+
+        document
+        .getElementById(
+            'suratBox'
+        )
+        .style.display =
+        'block';
+
+        document
+        .getElementById(
+            'linkSurat'
+        )
+        .href =
+        data.url_surat_balasan;
+    }
 
     }else{
 
