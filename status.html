@@ -234,6 +234,14 @@ async function cekStatus(){
         'nomorPengajuan'
     ).value;
 
+    document.getElementById(
+    'alasanBox'
+).style.display = 'none';
+
+document.getElementById(
+    'suratBox'
+).style.display = 'none';
+
     if(!nomor){
         alert(
             'Masukkan nomor pengajuan'
