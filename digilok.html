@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digilok - Aplikasi Loker Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #ecfdf5;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-body: #f9fafb;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 80px;
+        }
+
+        /* Modern Top Bar */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 5%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Navigasi Kembali ke index.html */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .brand:hover {
+            color: var(--primary);
+        }
+
+        .brand i {
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 8px 10px;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        .badge-store {
+            font-size: 12px;
+            background: #f3f4f6;
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 960px;
+            margin: 50px auto 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero App Section */
+        .app-hero {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        /* Desain Khusus untuk Logo Milik Anda */
+        .app-custom-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+            object-fit: cover;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e5e7eb;
+            flex-shrink: 0;
+            background-color: #ffffff;
+        }
+
+        .app-meta-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+
+        .developer-tag {
+            font-size: 15px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* Buttons Custom */
+        .action-area {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 12px 36px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -3px rgba(5, 150, 105, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: var(--text-muted);
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+            color: var(--text-main);
+            border-color: #d1d5db;
+        }
+
+        /* Grid Data (Struktur Mirip Playstore Modern) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: var(--card-bg);
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 20px 10px;
+            margin-bottom: 48px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .stat-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid #f3f4f6;
+        }
+
+        .stat-card:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .stat-value i {
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Premium Screenshots Slider */
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 14px;
+            margin-bottom: 48px;
+            scrollbar-width: thin;
+        }
+
+        .slider-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        .slider-wrapper::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+        /* Optimasi Tampilan Foto Screenshot Asli */
+        .screenshot-real {
+            min-width: 200px;
+            max-width: 220px;
+            height: auto;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            object-fit: contain;
+            flex-shrink: 0;
+            background-color: #ffffff;
+        }
+
+        /* Description Typography */
+        .desc-card {
+            background: var(--card-bg);
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .desc-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #4b5563;
+            white-space: pre-line;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 680px) {
+            .app-hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .app-custom-logo {
+                width: 110px;
+                height: 110px;
+                border-radius: 26px;
+            }
+            .app-title {
+                font-size: 28px;
+            }
+            .action-area {
+                justify-content: center;
+            }
+            .screenshot-real {
+                min-width: 165px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="brand">
+            <i class="fa-solid fa-house"></i> Kembali Utama
+        </a>
+        <div class="badge-store">Digilok App</div>
+    </header>
+
+    <div class="container">
+        
+        <section class="app-hero">
+            <img src="assets/images/logo_digilok.JPEG" alt="Logo Digilok" class="app-custom-logo">
+            
+            <div class="app-meta-info">
+                <h1 class="app-title">Digilok</h1>
+                <div class="developer-tag">Aplikasi Logbook Digital dan Absensi</div>
+                
+                <div class="action-area">
+                    <a href="https://github.com/erwendatri16/aplikasi_digilok_final/archive/refs/heads/main.zip" class="btn-download">Unduh APK</a>
+                    <button class="btn-secondary" title="Bagikan"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-value"><i class="fa-solid fa-cloud-arrow-down"></i></span>
+                <span class="stat-label">Aktif Digunakan</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">22 MB</span>
+                <span class="stat-label">Ukuran Ringan</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">v1.0.0</span>
+                <span class="stat-label">Versi Final</span>
+            </div>
+        </section>
+
+        <h2 class="section-header">Pratinjau Aplikasi</h2>
+        <section class="slider-wrapper">
+            <img src="assets/images/screenshot_dashboard.png" alt="Dashboard Utama" class="screenshot-real">
+            <img src="assets/images/screenshot_loker.png" alt="Sistem Kunci Loker" class="screenshot-real">
+            <img src="assets/images/screenshot_riwayat.png" alt="Log Aktivitas" class="screenshot-real">
+            <img src="assets/images/screenshot_profil.png" alt="Pengaturan Profil" class="screenshot-real">
+        </section>
+
+        <h2 class="section-header">Deskripsi Proyek</h2>
+        <section class="desc-card">
+            <p class="desc-text">
+                Digilok adalah aplikasi yang digunakan untuk mengelola logbook digital dan absensi berbasis lokasi untuk peserta magang di Dinas Komunikasi Informatika dan Statistik Kota Banjarmasin.
+
+                ⚡ Fitur Utama & Keunggulan:
+                • Absensi Berbasis GPS dan Radius.
+                • Logbook Digital.
+                • Antarmuka Ringkas, Cepat, dan Responsif.
+                • Data Tersimpan Aman di Server.
+
+                Gunakan Digilok sekarang untuk efisiensi manajemen logbook dan absensi selama magang.
+            </p>
+        </section>
+
+    </div>
+
+</body>
+</html>
