@@ -13,6 +13,41 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 console.log('SUPABASE JS BERHASIL DIMUAT');
 
 // =============================================
+// HELPER: KIRIM NOTIFIKASI ADMIN (via Edge Function)
+// API key Resend & Fonnte aman di server, tidak expose ke browser
+// =============================================
+
+async function kirimNotifikasiAdmin(data) {
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/functions/v1/notify-new-application`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                },
+                body: JSON.stringify({
+                    nomor_pengajuan: data.nomorPengajuan,
+                    nama_lengkap:    data.namaLengkap,
+                    email:           data.email,
+                    no_hp:           data.noHp,
+                    asal_kampus:     data.asalKampus,
+                    jurusan:         data.jurusan,
+                    periode_mulai:   data.periodeMultai,
+                    periode_selesai: data.periodeSelesai,
+                })
+            }
+        );
+        const result = await res.json();
+        console.log('✅ Notifikasi admin terkirim:', result);
+    } catch (err) {
+        console.error('❌ Gagal kirim notifikasi admin:', err);
+        // Tidak throw — notifikasi gagal tidak boleh batalkan submit
+    }
+}
+
+// =============================================
 // HELPER: GENERATE NOMOR PENGAJUAN
 // =============================================
 
@@ -65,21 +100,33 @@ if (form) {
 
             // Insert ke database
             const insertResult = await client.from('internship_applications').insert({
-                nomor_pengajuan:    nomorPengajuan,
-                nama_lengkap:       document.getElementById('nama_lengkap').value,
-                email:              document.getElementById('email').value,
-                no_hp:              document.getElementById('no_hp').value,
-                asal_kampus:        document.getElementById('asal_kampus').value,
-                jurusan:            document.getElementById('jurusan').value,
-                periode_mulai:      document.getElementById('periode_mulai').value,
-                periode_selesai:    document.getElementById('periode_selesai').value,
+                nomor_pengajuan:     nomorPengajuan,
+                nama_lengkap:        document.getElementById('nama_lengkap').value,
+                email:               document.getElementById('email').value,
+                no_hp:               document.getElementById('no_hp').value,
+                asal_kampus:         document.getElementById('asal_kampus').value,
+                jurusan:             document.getElementById('jurusan').value,
+                periode_mulai:       document.getElementById('periode_mulai').value,
+                periode_selesai:     document.getElementById('periode_selesai').value,
                 url_surat_pengantar: suratUrl,
-                url_ktm:            ktmUrl,
-                url_cv:             cvUrl,
-                status:             'pending'
+                url_ktm:             ktmUrl,
+                url_cv:              cvUrl,
+                status:              'pending'
             });
 
             if (insertResult.error) throw insertResult.error;
+
+            // ── Kirim notifikasi ke admin via Edge Function ──
+            kirimNotifikasiAdmin({
+                nomorPengajuan,
+                namaLengkap:    document.getElementById('nama_lengkap').value,
+                email:          document.getElementById('email').value,
+                noHp:           document.getElementById('no_hp').value,
+                asalKampus:     document.getElementById('asal_kampus').value,
+                jurusan:        document.getElementById('jurusan').value,
+                periodeMultai:  document.getElementById('periode_mulai').value,
+                periodeSelesai: document.getElementById('periode_selesai').value,
+            });
 
             // Tampilkan modal sukses
             currentNomorPengajuan = nomorPengajuan;
@@ -100,10 +147,6 @@ if (form) {
 // =============================================
 // STATISTIK HOMEPAGE (hanya aktif di index.html)
 // =============================================
-// FIX: Script dimuat SETELAH DOM selesai (posisi sebelum </body>),
-// sehingga event DOMContentLoaded sudah lewat.
-// Gunakan IIFE async agar langsung dieksekusi.
-// =============================================
 
 (async function loadStatistik() {
 
@@ -117,7 +160,6 @@ if (form) {
     console.log('MEMUAT STATISTIK...');
 
     try {
-        // Cek error segera setelah masing-masing query (bukan setelah keduanya)
         const { data: settingsData, error: settingsError } =
             await client
                 .from('internship_settings')
